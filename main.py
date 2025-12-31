@@ -41,8 +41,8 @@ for k in range(1, 21):
 print("Best k:", best_k)
 print("Test accuracy:", best_accuracy)
 
-
 import joblib
 selected_features = ['spread1', 'spread2', 'PPE', 'MDVP:Fo(Hz)', 'MDVP:Flo(Hz)']
-model = knn
-joblib.dump(model, '.joblib')
+path = "knn.joblib" 
+joblib.dump(selected_features,path)
+
