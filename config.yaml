@@ -1,5 +1,5 @@
 import joblib
-selected_features = ['spread1', 'spread2', 'PPE', 'MDVP:Fo(Hz)', 'MDVP:Flo(Hz)']
+selected_features = ['PPE', 'DFA' ]
 path = "knn.joblib" 
 joblib.dump(selected_features,path)
 
