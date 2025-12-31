@@ -1,48 +1,39 @@
+# Download the data from your GitHub repository
+!wget https://raw.githubusercontent.com/yotam-biu/ps9/main/parkinsons.csv -O /content/parkinsons.csv
+!wget https://raw.githubusercontent.com/yotam-biu/python_utils/main/lab_setup_do_not_edit.py -O /content/lab_setup_do_not_edit.py
+import lab_setup_do_not_edit
+
 import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
 import seaborn as sns
-dt = pd.read_csv('/content/parkinsons.csv')
-dt = dt.dropna()
 
-X = dt[['PPE','DFA']]  
-y = dt['status'] 
+df = pd.read_csv('parkinsons.csv')
+df = df.dropna()
+df.head()
 
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
+x = df[['PPE', 'DFA']]
+y = df['status']
 
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42
-)
+import sklearn
+from sklearn.preprocessing import MinMaxScaler
 
-scaler = StandardScaler()
-X_train_scaled = scaler.fit_transform(X_train)  
-X_test_scaled = scaler.transform(X_test) 
+scaler = MinMaxScaler(feature_range=(0, 1))
+x = scaler.fit_transform(x)
 
-rom sklearn.neighbors import KNeighborsClassifier
+x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(x, y, test_size=0.2, random_state=42)
 
-knn = KNeighborsClassifier(n_neighbors=2)
-knn.fit(X_train_scaled, y_train)
+from sklearn.svm import SVC
+model = SVC()
+model.fit(x_train, y_train)
 
 from sklearn.metrics import accuracy_score
 
-best_k = None
-best_accuracy = 0
-
-for k in range(1, 21):
-    knn = KNeighborsClassifier(n_neighbors=k)
-    knn.fit(X_train_scaled, y_train)
-    
-    y_pred = knn.predict(X_test_scaled)
-    acc = accuracy_score(y_test, y_pred)
-    
-    if acc > best_accuracy:
-        best_accuracy = acc
-        best_k = k
-
-print("Best k:", best_k)
-print("Test accuracy:", best_accuracy)
+y_pred = model.predict(x_test)
+accuracy = accuracy_score(y_test, y_pred)
+print(f'Accuracy: {accuracy}')
 
 import joblib
-selected_features = ['PPE','DFA']
-path = "knn.joblib" 
-joblib.dump(selected_features,path)
+
+joblib.dump(model, 'my_model_parkinson.joblib')
 
