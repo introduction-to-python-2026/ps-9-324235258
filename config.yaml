@@ -1,5 +1,2 @@
-import joblib
-selected_features = ['PPE', 'DFA' ]
-path = "knn.joblib" 
-joblib.dump(selected_features,path)
-
+path: "my_model_parkinson.joblib"
+features: ['PPE', 'DFA']
