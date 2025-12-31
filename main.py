@@ -3,7 +3,7 @@ import seaborn as sns
 dt = pd.read_csv('/content/parkinsons.csv')
 dt = dt.dropna()
 
-X = dt[['spread1', 'PPE','spread2', 'MDVP:Fo(Hz)', 'MDVP:Flo(Hz)']]  
+X = dt[['PPE','DFA']]  
 y = dt['status'] 
 
 from sklearn.model_selection import train_test_split
@@ -42,7 +42,7 @@ print("Best k:", best_k)
 print("Test accuracy:", best_accuracy)
 
 import joblib
-selected_features = ['spread1', 'spread2', 'PPE', 'MDVP:Fo(Hz)', 'MDVP:Flo(Hz)']
+selected_features = ['PPE','DFA']
 path = "knn.joblib" 
 joblib.dump(selected_features,path)
 
