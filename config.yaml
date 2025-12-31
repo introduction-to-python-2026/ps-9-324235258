@@ -1,2 +1,4 @@
-path: "path_to_model.joblib
-features: ['feature_A', 'feature_B']
+import joblib
+selected_features = ['spread1', 'spread2', 'PPE', 'MDVP:Fo(Hz)', 'MDVP:Flo(Hz)']
+model = knn
+joblib.dump(model, '.joblib')
